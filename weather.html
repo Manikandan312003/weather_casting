@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEATHER APP</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="header">
+        <h1>AIR QUALITY INDEX</h1>
+        <div>
+            <input type="text" name="search" id="input" placeholder="Enter city name">
+            <button type="button" id="search" onclick="changename()">Search</button>
+        </div>
+    </div>
+
+    <main>        
+        <div class="weather">
+            <h2 id="city"></h2>
+            <div class="temp-box">
+                <img src="/F:\HTML\weatherimg.png" alt="" id="img">
+                <p id="aqi"></p>
+            </div>
+            <span id="cond">☀️ACCUWEATHER</span>
+        </div>
+        <div class="divider1"></div>
+
+        <div class="forecstH">
+            <p class="cast-header">Upcoming forecast</p>
+            <div class="templist">
+
+                <div class="next">
+                    <div>
+                        <p class="time">NO</p>
+                        <p id="no">----</p>
+                    </div>
+                    
+                </div>
+
+                <div class="next">
+                    
+                    <div>
+                        <p class="time">NO2</p>
+                        <p id="no2">----</p>
+                    </div>
+                    
+                </div>
+
+                <div class="next">
+                    <div>
+                        <p class="time">NOx</p>
+                        <p id="nox">----</p>
+                    </div>
+                    
+                </div>
+
+                <div class="next">
+                    <div>
+                        <p class="time">CO</p>
+                        <p id="co">----</p>
+                    </div>
+                    
+                </div>
+
+                <div class="next">
+                    <div>
+                        <p class="time">SO2</p>
+                        <p id="so2">----</p>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="forecstD">
+        <div class="divider2"></div>
+        <p class="cast-header"> Next 4 days forecast</p>
+        <div class="weekF">
+
+            <div class="dayF">
+                <p class="date">GOOD</p>
+                <p>0 to 50</p>
+                <p style="color: white;" class="desc">Air quality is satisfactory, and air pollution poses little or no risk.</p>
+            </div>
+
+            <div class="dayF">
+                <p class="date">MODERATE</p>
+                <p>51 to 100</p>
+                <p class="desc">Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.</p>
+            </div>
+
+            <div class="dayF">
+                <p class="date">SASTISFACTORY</p>
+                <p>101 TO 150</p>
+                <p class="desc">Members of sensitive groups may experience health effects. The general public is less likely to be affected.</p>
+            </div>
+
+            <div class="dayF">
+                <p class="date">POOR</p>
+                <p>ABOVE 150</p>
+                <p class="desc">Health warning of emergency conditions: everyone is more likely to be affected.<br>Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+    const apikey="YOURAPI";
+window.addEventListener("load",()=>{
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition((position)=>{
+            let lon= position.coords.longitude;
+            let lat= position.coords.latitude;
+            const url= `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&` + `lon=${lon}&appid=${apikey}`;
+            
+
+            fetch(url).then((res)=>{
+                return res.json();
+            }).then((data)=>{
+                console.log(data);
+                console.log(new Date().getTime())
+                var dat= new Date(data.dt)
+                console.log(dat.toLocaleString(undefined,'Asia/Kolkata'))
+                console.log(new Date().getMinutes())
+                weatherReport(data);
+            })
+        })
+    }
+})
+
+function changename(){
+    var x = document.getElementById("input").value;
+    
+    var aqi,no,no2,nox,co,so2,cond;
+    if(x=='ahmedhaad')
+    {
+        aqi="132";
+        no="11.21";
+        no2="43.37";
+        nox="14.13";
+        co="30.26";
+        so2="1.2";
+        cond="SATISFACTORY";
+        document.getElementById("img").src="moderate.png";
+    }
+
+    else if(x=='chennai')
+    {
+        aqi="230";
+        no="112.29";
+        no2="12.77";
+        nox="9.68";
+        co="0.93";
+        so2="14.04";
+        cond="POOR";
+        document.getElementById("img").src="poor.png";
+    }
+
+    else if(x=='mumbai')
+    {
+        aqi="97";
+        no="9.65";
+        no2="5.42";
+        nox="12.36";
+        co="2.12";
+        so2="7.00";
+        cond="MODERATE";
+        document.getElementById("img").src="moderate.png";
+    }
+
+    else if(x=='salem')
+    {
+        aqi="45";
+        no="14.9";
+        no2="65.57";
+        nox="8.07";
+        co="15.46";
+        so2="23.54";
+        cond="GOOD";
+        document.getElementById("img").src="good.png";
+    }
+
+    else if(x=='delhi')
+    {
+        aqi="321";
+        no="555";
+        no2="458.11";
+        nox="253.1";
+        co="55.23";
+        so2="148.2";
+        cond="POOR";
+        document.getElementById("img").src="poor.png";
+    }
+
+
+    else if(x=='Visakhapatnam')
+    {
+        aqi="38";
+        no="66";
+        no2="0.4";
+        nox="24.3";
+        co="14.06";
+        so2="8.81";
+        cond="GOOD";
+        document.getElementById("img").src="good.png";
+    }
+
+    else if(x=='jaipur')
+    {
+
+
+        aqi="115.73";
+        no="3.45";
+        no2="29.53";
+        nox="18.33";
+        co="10.71";
+        so2="0.48";
+        cond="SATISFACTORY";
+        document.getElementById("img").src="moderate.png";
+    }
+
+    
+    
+    else{
+        aqi="75";
+        no="25.2";
+        no2="85.2";
+        nox="18.56";
+        co="25.6645";
+        so2="45.25";
+        cond="MODERATE";
+        document.getElementById("img").src="moderate.png";
+    }
+
+    
+    document.getElementById("aqi").innerHTML = "AQI :"+aqi;
+    document.getElementById("no").innerHTML = no;
+    document.getElementById("no2").innerHTML = no2;
+    document.getElementById("nox").innerHTML = nox;
+    document.getElementById("co").innerHTML = co;
+    document.getElementById("so2").innerHTML = so2;
+    document.getElementById("cond").innerHTML = cond;
+    document.getElementById("city").innerHTML = x;
+}
+function searchByCity(){
+    var x = document.getElementById("input").value;
+    document.getElementById("city").innerHTML = x;
+    var place= document.getElementById('input').value;
+    var urlsearch= `http://api.openweathermap.org/data/2.5/weather?q=${place}&` + `appid=${apikey}`;
+
+    fetch(urlsearch).then((res)=>{
+        return res.json();
+    }).then((data)=>{
+        console.log(data);
+        weatherReport(data);
+    })
+    document.getElementById('input').value='';
+}
+
+function weatherReport(data){
+
+    var urlcast= `http://api.openweathermap.org/data/2.5/forecast?q=${data.name}&` + `appid=${apikey}`;
+
+    fetch(urlcast).then((res)=>{
+        return res.json();
+    }).then((forecast)=>{
+        console.log(forecast.city);
+        hourForecast(forecast);
+        dayForecast(forecast)
+
+        console.log(data);
+        document.getElementById('city').innerText= data.name + ', '+data.sys.country;
+        console.log(data.name,data.sys.country);
+    
+        console.log(Math.floor(data.main.temp-273));
+        document.getElementById('temperature').innerText= Math.floor(data.main.temp-273)+ ' °C';
+    
+        document.getElementById('clouds').innerText= data.weather[0].description;
+        console.log(data.weather[0].description)
+        
+        let icon1= data.weather[0].icon;
+        let iconurl= "http://api.openweathermap.org/img/w/"+ icon1 +".png";
+        document.getElementById('img').src=iconurl
+    })
+
+}
+
+function hourForecast(forecast){
+    document.querySelector('.templist').innerHTML=''
+    for (let i = 0; i < 5; i++) {
+
+        var date= new Date(forecast.list[i].dt*1000)
+        console.log((date.toLocaleTimeString(undefined,'Asia/Kolkata')).replace(':00',''))
+
+        let hourR=document.createElement('div');
+        hourR.setAttribute('class','next');
+
+        let div= document.createElement('div');
+        let time= document.createElement('p');
+        time.setAttribute('class','time')
+        time.innerText= (date.toLocaleTimeString(undefined,'Asia/Kolkata')).replace(':00','');
+
+        let temp= document.createElement('p');
+        temp.innerText= Math.floor((forecast.list[i].main.temp_max - 273))+ ' °C' + ' / ' + Math.floor((forecast.list[i].main.temp_min - 273))+ ' °C';
+
+        div.appendChild(time)
+        div.appendChild(temp)
+
+        let desc= document.createElement('p');
+        desc.setAttribute('class','desc')
+        desc.innerText= forecast.list[i].weather[0].description;
+
+        hourR.appendChild(div);
+        hourR.appendChild(desc)
+        document.querySelector('.templist').appendChild(hourR);
+}
+}
+
+function dayForecast(forecast){
+    document.querySelector('.weekF').innerHTML=''
+    for (let i = 8; i < forecast.list.length; i+=8) {
+        console.log(forecast.list[i]);
+        let div= document.createElement('div');
+        div.setAttribute('class','dayF');
+        
+        let day= document.createElement('p');
+        day.setAttribute('class','date')
+        day.innerText= new Date(forecast.list[i].dt*1000).toDateString(undefined,'Asia/Kolkata');
+        div.appendChild(day);
+
+        let temp= document.createElement('p');
+        temp.innerText= Math.floor((forecast.list[i].main.temp_max - 273))+ ' °C' + ' / ' + Math.floor((forecast.list[i].main.temp_min - 273))+ ' °C';
+        div.appendChild(temp)
+
+        let description= document.createElement('p');
+        description.setAttribute('class','desc')
+        description.innerText= forecast.list[i].weather[0].description;
+        div.appendChild(description);
+
+        document.querySelector('.weekF').appendChild(div)
+    }
+} 
+    </script>
+</body>
+</html>
